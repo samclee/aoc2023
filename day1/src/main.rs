@@ -1,6 +1,6 @@
+use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::io::Result;
-use std::io::{BufRead, BufReader};
 
 pub fn line_to_number(line: &str) -> u32 {
     let digits = line
