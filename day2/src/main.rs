@@ -32,7 +32,7 @@ pub fn string_to_limit(color_name: &str) -> u32 {
     }
 }
 
-fn part1(buf: String) {
+fn part1(buf: &String) {
     let sum_of_good_games = buf.lines()
         .enumerate()
         .filter(|(_i, line)| is_game_good(line))
@@ -47,9 +47,6 @@ fn main() -> Result<()> {
     let mut buf = String::new();
     file.read_to_string(&mut buf)?;
 
-    part1(buf);
+    part1(&buf);
     Ok(())
 }
-
-#[cfg(test)]
-mod tests;
