@@ -51,15 +51,6 @@ fn get_adjacent_coords(x: i32, y: i32) -> Vec<MyVec> {
     .collect::<Vec<_>>()
 }
 
-fn get_char_type(c: char) -> CharType {
-    if c.is_numeric() {
-        CharType::Digit(c.to_digit(10).unwrap())
-    }
-    else {
-        CharType::Terminator
-    }
-}
-
 fn get_symbol_coords(fname: &str) -> HashSet<MyVec> {
     let file = File::open(fname).unwrap();
     let reader = BufReader::new(file);
@@ -92,7 +83,12 @@ fn part1(fname: &str) -> u32 {
     let mut sum = 0_u32;
     for (y, line) in reader.lines().enumerate() {
         for (x, c) in line.unwrap().char_indices() {
-            let new_char = get_char_type(c);
+            let new_char = if c.is_numeric() {
+                CharType::Digit(c.to_digit(10).unwrap())
+            }
+            else {
+                CharType::Terminator
+            };
             let symbol_adjacent = get_adjacent_coords(x as i32, y as i32)
                 .iter()
                 .any(|coord| symbol_coords.contains(coord));
