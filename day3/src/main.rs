@@ -25,14 +25,14 @@ fn change_state(state: &ParseState, new_char: CharType, symbol_adjacent: bool) -
     match (state, new_char, symbol_adjacent) {
         (ParseState::Idle, CharType::Digit(digit), false)                         => (ParseState::InvalidInProgress(digit), Option::None),
         (ParseState::Idle, CharType::Digit(digit), true)                          => (ParseState::ValidInProgress(digit), Option::None),
-        (ParseState::Idle, CharType::Terminator, _)                                                       => (ParseState::Idle, Option::None),
+        (ParseState::Idle, CharType::Terminator, _)                                    => (ParseState::Idle, Option::None),
 
         (ParseState::ValidInProgress(val), CharType::Digit(digit), _)       => (ParseState::ValidInProgress(val * 10 + digit), Option::None),
-        (ParseState::ValidInProgress(val), CharType::Terminator, _)                                 => (ParseState::Idle, Some(*val)),
+        (ParseState::ValidInProgress(val), CharType::Terminator, _)              => (ParseState::Idle, Some(*val)),
 
         (ParseState::InvalidInProgress(val), CharType::Digit(digit), false) => (ParseState::InvalidInProgress(val * 10 + digit), Option::None),
         (ParseState::InvalidInProgress(val), CharType::Digit(digit), true)  => (ParseState::ValidInProgress(val * 10 + digit), Option::None),
-        (ParseState::InvalidInProgress(_), CharType::Terminator, _)                         => (ParseState::Idle, Option::None),
+        (ParseState::InvalidInProgress(_), CharType::Terminator, _)                    => (ParseState::Idle, Option::None),
     }
 }
 
@@ -115,9 +115,9 @@ fn part1(fname: &str) -> u32 {
     }
     // Also disgusting. EOF case
     let (_, valid_val) = change_state(&state, CharType::Terminator, false);
-        if let Some(val) = valid_val {
-            sum += val;
-        }
+    if let Some(val) = valid_val {
+        sum += val;
+    }
     sum
 }
 
